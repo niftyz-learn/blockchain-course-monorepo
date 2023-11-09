@@ -8,13 +8,15 @@ async function main() {
     let wallet = new ethers.Wallet(configs.owner_key).connect(provider)
     const contract = new ethers.Contract(configs.contract_address, ABI.abi, wallet)
 
-    const uri = "https://ipfs.io/ipfs/SOMETHING_HERE"
+    const uri = "https://bafkreie4dfdksfyam3kdywwzyj34cquu2rjdn6qtmcwenajfg2mui6mpvy.ipfs.nftstorage.link"
     const result = await contract.mint(configs.owner_address, uri)
     console.log("Waiting at:", result.hash)
     const receipt = await result.wait()
     console.log("Token ID minted:", receipt.events[0].args[2].toString())
     fs.writeFileSync(process.env.CONFIG, JSON.stringify(configs, null, 4))
     console.log("💸 Gas used:", receipt.gasUsed.toString())
+
+    // Live example here: https://testnets.opensea.io/assets/sepolia/0xfbb4c4a1d5382fbf709d23b42c62c79a7fef3154/0
 }
 
 main()
