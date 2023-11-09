@@ -1,0 +1,11 @@
+{
+    "network": "localhost",
+    "contract_name": "Erc20Example",
+    "constructor_arguments": ["PASTE_YOUR_ADDRESS_HERE"],
+    "contract_address": "",
+    "owner_mnemonic": "",
+    "provider": "http://127.0.0.1:8545",
+    "owner_key": "",
+    "owner_address": "",
+    "bob": "0x8ec29324353f62f5d603a8fb8750bf340c74822f"
+}
