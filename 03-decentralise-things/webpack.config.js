@@ -7,7 +7,7 @@ module.exports = {
   performance: { hints: false },
   output: {
     filename: 'eth.min.js',
-    path: path.resolve(__dirname, 'docs'),
+    path: path.resolve(__dirname, 'build'),
   },
   plugins: [
     new NodePolyfillPlugin({
@@ -15,6 +15,6 @@ module.exports = {
 		})
   ],
   devServer: {
-    static: './docs'
+    static: './build'
   },
 };
