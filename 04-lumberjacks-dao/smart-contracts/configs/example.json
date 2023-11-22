@@ -1,0 +1,12 @@
+{
+    "network": "localhost",
+    "owner_mnemonic": "",
+    "provider": "http://127.0.0.1:8545",
+    "owner_key": "",
+    "owner_address": "",
+    "contracts": {
+        "proposals": "",
+        "attestations": "",
+        "governance": ""
+    }
+}
