@@ -75,6 +75,10 @@ async function sign() {
             console.log("Signature is:", signature)
             const verified = await ethers.verifyMessage(quote, signature);
             console.log("Verified account is:", verified)
+            if (verified !== account) {
+                alert("Signature verification failed!")
+                return;
+            }
             // Pick new random quote
             const random = Math.floor(Math.random() * quotes.length);
             quote = quotes[random]

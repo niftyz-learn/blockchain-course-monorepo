@@ -10,7 +10,7 @@ contract Erc721Example is ERC721, ERC721URIStorage, Ownable {
 
     constructor(
         address initialOwner
-    ) ERC721("MyToken", "MTK") Ownable(initialOwner) {}
+    ) ERC721("MediaInstitutetNFT", "MINFT") Ownable(initialOwner) {}
 
     function mint(address to, string memory uri) public onlyOwner {
         uint256 tokenId = _nextTokenId++;

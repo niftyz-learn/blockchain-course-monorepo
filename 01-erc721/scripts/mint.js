@@ -8,6 +8,10 @@ async function main() {
     let wallet = new ethers.Wallet(configs.owner_key).connect(provider)
     const contract = new ethers.Contract(configs.contract_address, ABI.abi, wallet)
 
+    // IPFS URI
+    // bafkreie4dfdksfyam3kdywwzyj34cquu2rjdn6qtmcwenajfg2mui6mpvy
+    // ipfs.nftstorage.link
+
     const uri = "https://bafkreie4dfdksfyam3kdywwzyj34cquu2rjdn6qtmcwenajfg2mui6mpvy.ipfs.nftstorage.link"
     const result = await contract.mint(configs.owner_address, uri)
     console.log("Waiting at:", result.hash)
