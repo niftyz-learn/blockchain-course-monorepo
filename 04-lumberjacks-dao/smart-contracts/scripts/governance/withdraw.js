@@ -8,16 +8,13 @@ async function main() {
     let wallet = new ethers.Wallet(configs.owner_key).connect(provider)
     const contract = new ethers.Contract(configs.contracts.governance, ABI.abi, wallet)
 
-    console.log("Reading balance for owner:", configs.owner_address)
-    const result = await contract.balanceOf(configs.owner_address)
-    console.log("Balance is:", result.toString())
+    const balanceOfToken = await provider.getBalance(configs.contracts.governance)
+    console.log("Withdrawing from contract:", balanceOfToken.toString())
+    const result = await contract.withdraw()
+    await result.wait()
     console.log("--")
-    console.log("Minting new tokens to the owner..")
-    const value = utils.parseEther("0.25")
-    const resultTransfer = await contract.mint(configs.owner_address, { value: value })
-    await resultTransfer.wait()
-    console.log("Reading updated balance for owner")
-    const result2 = await contract.balanceOf(configs.owner_address)
+    console.log("Reading ETH balance for owner..")
+    const result2 = await provider.getBalance(configs.owner_address)
     console.log("Balance is:", result2.toString())
 }
 
