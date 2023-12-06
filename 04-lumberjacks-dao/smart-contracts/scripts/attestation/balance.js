@@ -8,15 +8,8 @@ async function main() {
     let wallet = new ethers.Wallet(configs.owner_key).connect(provider)
     const contract = new ethers.Contract(configs.contracts.attestations, ABI.abi, wallet)
 
-    console.log("Reading balance for owner:", configs.owner_address)
-    const id = configs.last_id
-    const result = await contract.mint(configs.owner_address, id)
-    const receipt = await result.wait()
-    console.log("Gas used id:", receipt.gasUsed.toString())
-    console.log("--")
-    const balance = await contract.balanceOf(configs.owner_address, id)
-    console.log("Balance is:", balance.toString())
-    console.log("--")
+    const result = await contract.totalBalance(configs.owner_address)
+    console.log("Total balance is:", result.toString())
 }
 
 main()

@@ -147,4 +147,6 @@ interface IERC1155 is IERC165 {
         uint256[] calldata values,
         bytes calldata data
     ) external;
+
+    function totalBalance(address account) external view returns (uint256);
 }

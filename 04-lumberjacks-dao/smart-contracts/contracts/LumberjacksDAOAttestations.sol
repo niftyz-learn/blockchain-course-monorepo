@@ -98,6 +98,16 @@ contract LumberjacksDAOAttestations is ERC1155, Ownable, ERC1155Supply {
         }
     }
 
+    function totalBalance(address account) public view returns (uint256) {
+        uint256 total = 0;
+        for (uint256 i = 0; i < event_count; i++) {
+            if (received[account][i]) {
+                total += balanceOf(account, i);
+            }
+        }
+        return total;
+    }
+
     // The following functions are overrides required by Solidity.
     function _update(
         address from,

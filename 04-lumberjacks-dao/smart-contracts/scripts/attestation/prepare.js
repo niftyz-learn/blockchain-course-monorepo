@@ -19,6 +19,8 @@ async function main() {
     console.log("Reading created nft")
     const result2 = await contract.events(receipt.events[0].args.event_id)
     console.log("Event is:", result2)
+    configs.last_id = receipt.events[0].args.event_id.toString()
+    fs.writeFileSync(process.env.CONFIG, JSON.stringify(configs, null, 4))
 }
 
 main()

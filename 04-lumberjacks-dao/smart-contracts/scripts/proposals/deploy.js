@@ -4,8 +4,8 @@ const fs = require('fs');
 async function main() {
   const configs = JSON.parse(fs.readFileSync(process.env.CONFIG).toString())
   console.log('Deploying contract..')
-  const ContractFactory = await hre.ethers.getContractFactory("Proposals");
-  const contract = await ContractFactory.deploy();
+  const ContractFactory = await hre.ethers.getContractFactory("LumberjacksDAOProposals");
+  const contract = await ContractFactory.deploy(configs.owner_address, configs.contracts.attestations, configs.contracts.governance);
   console.log('Deploy transaction is: ' + contract.deployTransaction.hash)
   await contract.deployed();
   console.log("Contract deployed to:", contract.address);
