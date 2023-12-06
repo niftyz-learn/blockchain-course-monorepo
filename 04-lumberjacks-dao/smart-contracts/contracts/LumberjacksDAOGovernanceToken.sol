@@ -9,6 +9,9 @@ contract LumberjacksDAOGovernanceToken is ERC20, Ownable, ERC20Permit {
     uint256 public initialPrice = 0.00001 ether;
     uint256 public priceIncreasePerToken = 0.000000001 ether;
     uint256 public initialSupply = 100 * 10 ** decimals();
+    uint256 public minters = 0;
+    mapping(address => bool) public isMinter;
+    mapping(address => uint256) public mintedAmount;
 
     constructor(
         address initialOwner
@@ -23,6 +26,11 @@ contract LumberjacksDAOGovernanceToken is ERC20, Ownable, ERC20Permit {
     function mint(address to, uint256 amount) public payable {
         uint256 currentPrice = getCurrentPrice();
         require(msg.value >= amount * currentPrice, "Ether sent is not enough");
+        if (!isMinter[msg.sender]) {
+            isMinter[msg.sender] = true;
+            minters++;
+        }
+        mintedAmount[msg.sender] += amount;
         _mint(to, amount);
     }
 
@@ -31,12 +39,37 @@ contract LumberjacksDAOGovernanceToken is ERC20, Ownable, ERC20Permit {
     }
 
     function getCurrentPrice() public view returns (uint256) {
+        uint256 basePrice;
+
+        // Determine base price based on whether the initial supply is exceeded
         if (initialSupply >= totalSupply()) {
-            return initialPrice;
+            basePrice = initialPrice;
         } else {
             uint256 additionalSupply = totalSupply() - initialSupply;
-            return initialPrice + (priceIncreasePerToken * additionalSupply);
+            basePrice =
+                initialPrice +
+                (priceIncreasePerToken * additionalSupply);
         }
+
+        // Apply a discount for first-time minters
+        if (!isMinter[msg.sender]) {
+            return basePrice / 10;
+        }
+
+        // Increase price based on the amount of tokens previously minted by the address
+        uint256 mintedAmountBySender = mintedAmount[msg.sender];
+
+        // Apply an increase proportional to the amount of tokens minted
+        uint256 increasePercentage = mintedAmountBySender / 1000;
+        uint256 increasedPrice = basePrice +
+            ((basePrice * increasePercentage) / 100);
+
+        // Decrease price proportionally to the number of minters
+        uint256 decreasePercentage = minters * 1;
+        uint256 finalPrice = increasedPrice -
+            ((increasedPrice * decreasePercentage) / 100);
+
+        return finalPrice;
     }
 
     function withdraw() public onlyOwner {
