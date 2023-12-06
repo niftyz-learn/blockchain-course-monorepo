@@ -11,26 +11,25 @@ async function run() {
         const configs = JSON.parse(fs.readFileSync(configFile).toString())
         const { addresses, keys } = await derive(configs.owner_mnemonic, 10)
         console.log('Deployer address: ' + addresses[0])
-
+        const contractName = argv._[1]
         if (
             configs.network !== undefined &&
             configs.owner_mnemonic !== undefined
         ) {
             let arguments = ""
-            for (let k in configs.constructor_arguments) {
-                if(k > 0){
+            for (let k in configs.arguments[contractName]) {
+                if (k > 0) {
                     arguments += ","
                 }
-                arguments += '"' + configs.constructor_arguments[k] + '"'
+                arguments += '"' + configs.arguments[contractName][k] + '"'
             }
             fs.writeFileSync('./artifacts/arguments.js', `module.exports = [` + arguments + `]`)
             child_process.execSync(
                 'ETHERSCAN="' + configs.etherscan_key + '" ' +
-                'POLYGONSCAN="' + configs.polygonscan_key + '" ' +
                 'PROVIDER="' + configs.provider + '" ' +
                 'NETWORK="' + configs.network + '" ' +
                 'npx hardhat verify --show-stack-traces --network ' + configs.network +
-                ' ' + configs.contract_address +
+                ' ' + configs.contracts[contractName] +
                 ' --constructor-args ./artifacts/arguments.js', { stdio: 'inherit' }
             )
             console.log('All done, exiting!')

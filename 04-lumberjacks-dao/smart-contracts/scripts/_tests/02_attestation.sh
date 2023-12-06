@@ -1,3 +1,3 @@
-bun task attestation/prepare hardhat
-bun task attestation/mint hardhat
-bun task attestation/balance hardhat
+bun task attestations/prepare hardhat
+bun task attestations/mint hardhat
+bun task attestations/balance hardhat

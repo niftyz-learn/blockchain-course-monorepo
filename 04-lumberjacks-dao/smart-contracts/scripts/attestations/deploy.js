@@ -10,6 +10,7 @@ async function main() {
   await contract.deployed();
   console.log("Contract deployed to:", contract.address);
   configs.contracts.attestations = contract.address
+  configs.arguments.attestations = [configs.owner_address]
   fs.writeFileSync(process.env.CONFIG, JSON.stringify(configs, null, 4))
 }
 
