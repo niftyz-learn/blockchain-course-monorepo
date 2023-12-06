@@ -36,6 +36,7 @@ contract LumberjacksDAOGovernanceToken is ERC20, Ownable, ERC20Permit {
 
     function burn(uint256 amount) public {
         _burn(msg.sender, amount);
+        mintedAmount[msg.sender] -= amount;
     }
 
     function getCurrentPrice() public view returns (uint256) {
@@ -64,10 +65,10 @@ contract LumberjacksDAOGovernanceToken is ERC20, Ownable, ERC20Permit {
         uint256 increasedPrice = basePrice +
             ((basePrice * increasePercentage) / 100);
 
-        // Decrease price proportionally to the number of minters
-        uint256 decreasePercentage = minters * 1;
-        uint256 finalPrice = increasedPrice -
-            ((increasedPrice * decreasePercentage) / 100);
+        // Increase price proportionally to the number of minters to avoid sybil attacks
+        uint256 sybilAttackPrevention = minters * 2;
+        uint256 finalPrice = increasedPrice +
+            ((increasedPrice * sybilAttackPrevention) / 100);
 
         return finalPrice;
     }

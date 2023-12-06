@@ -1,6 +1,5 @@
 const { ethers, utils } = require("ethers");
 const fs = require('fs');
-const { keys } = await derive(configs.owner_mnemonic, 10)
 
 async function main() {
     const configs = JSON.parse(fs.readFileSync(process.env.CONFIG).toString())
