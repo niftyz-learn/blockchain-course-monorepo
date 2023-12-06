@@ -8,5 +8,10 @@
         "proposals": "",
         "attestations": "",
         "governance": ""
+    },
+    "arguments": {
+        "proposals": [],
+        "attestations": [],
+        "governance": []
     }
 }
