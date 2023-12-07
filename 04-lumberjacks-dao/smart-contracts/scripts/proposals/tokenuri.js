@@ -8,18 +8,13 @@ async function main() {
     let wallet = new ethers.Wallet(configs.owner_key).connect(provider)
     const contract = new ethers.Contract(configs.contracts.proposals, ABI.abi, wallet)
 
-    const metatada_uri = "ipfs://bafkreigup2ib2s4r2r4oep2vlc2orkk6n7tuznka74dc37bjkrrdn66a3m"
-    const start_date = parseInt(new Date().getTime() / 1000)
-    const end_date = parseInt(new Date().getTime() / 1000) + 60 * 60 * 24 * 7
-    const min_power_to_vote = 100
-
-    const result = await contract.create(metatada_uri, start_date, end_date, min_power_to_vote)
-    console.log("Waiting at", result.hash)
-    await result.wait()
-    // Read proposal
-    const token_id = await contract.proposal_id_by_metadata_uri(metatada_uri)
-    const proposal = await contract.proposals(token_id)
-    console.log("Proposal created:", proposal)
+    const tokenId = 0
+    try {       
+        const result = await contract.tokenURI(tokenId)
+        console.log("Token URI is:", result)
+    } catch (e) {
+        console.log(e.message)
+    }
 }
 
 main()

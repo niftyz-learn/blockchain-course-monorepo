@@ -15,7 +15,7 @@ async function main() {
     console.log("Balance is:", result.toString())
     console.log("--")
     console.log("Minting new tokens to the owner..")
-    const value = utils.parseEther("1")
+    const value = utils.parseEther("100000000")
     const calculatedTokenAmount = await contract.calculateTokenAmount(value)
     console.log("Calculated token amount:", calculatedTokenAmount.toString())
     const resultTransfer = await contract.mint(wallet.address, calculatedTokenAmount, { value })

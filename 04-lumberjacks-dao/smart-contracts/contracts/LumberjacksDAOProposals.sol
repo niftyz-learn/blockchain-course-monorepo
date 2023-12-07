@@ -35,12 +35,15 @@ contract LumberjacksDAOProposals is ERC721, Ownable {
     mapping(uint256 => mapping(address => Vote)) private votes;
     // Accounts that voted for a proposal
     mapping(uint256 => address[]) private voters;
+    mapping(uint256 => uint256) public attestation_nft;
 
     constructor(
         address initialOwner,
         address initialAttestationContract,
         address initialGovernanceContract
     ) ERC721("LumberjacksDAOProposals", "LDP") Ownable(initialOwner) {
+        require(initialAttestationContract != address(0), "Invalid address");
+        require(initialGovernanceContract != address(0), "Invalid address");
         attestationContract = initialAttestationContract;
         governanceContract = initialGovernanceContract;
     }
@@ -88,7 +91,17 @@ contract LumberjacksDAOProposals is ERC721, Ownable {
     function tokenURI(
         uint256 tokenId
     ) public view override returns (string memory) {
-        return proposals[tokenId].metadata_uri;
+        if (attestation_nft[tokenId] == 0) {
+            return proposals[tokenId].metadata_uri;
+        } else {
+            return
+                string(
+                    abi.encodePacked(
+                        "https://lumberjacksdao.com/attestations/",
+                        attestation_nft[tokenId]
+                    )
+                );
+        }
     }
 
     // Votes for a proposal
@@ -121,6 +134,10 @@ contract LumberjacksDAOProposals is ERC721, Ownable {
         votes[proposal_id][msg.sender].timestamp = block.timestamp;
         // Add the voter to the voted list
         voters[proposal_id].push(msg.sender);
+        // Mint back an nft
+        _nextTokenId++;
+        attestation_nft[_nextTokenId] = proposal_id;
+        _safeMint(msg.sender, _nextTokenId);
     }
 
     // Returns the votes for a proposal and address

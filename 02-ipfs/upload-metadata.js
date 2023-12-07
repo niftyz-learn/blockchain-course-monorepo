@@ -8,14 +8,19 @@ async function upload() {
     const NFT_STORAGE_TOKEN = process.env.nftstorage_key
     const client = new NFTStorage({ token: NFT_STORAGE_TOKEN })
     const metadata = {
-        "description": "This is a logo.",
-        "external_url": "https://mywebsite.io/3",
-        "image": "https://bafkreigpsmkqr5bwu5ech7wpxwohqpwoemuzmwe6esvyc3bjzrhmpucrwy.ipfs.nftstorage.link",
-        "name": "Logo",
-        "attributes": [
+        "description": "Do you want to open the DAO in Ohio?",
+        "external_url": "https://lumberjacksdao.io/proposals/1",
+        "image": "https://bafkreiebe4o2ibucdystvdd7423rd7zaqnhaqi3pqtcj5jwbm32alwmixu.ipfs.nftstorage.link",
+        "name": "Proposal #1",
+        "attributes": [],
+        "answers": [
             {
-                "trait_type": "Coolness",
-                "value": "200%"
+                "id": 1,
+                "text": "Yes"
+            },
+            {
+                "id": 2,
+                "text": "No"
             }
         ]
     }
